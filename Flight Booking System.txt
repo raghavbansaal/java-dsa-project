@@ -1,0 +1,27 @@
+DRAG - Flight Booking System:
+
+DSA:
+Features:
+User Authentication
+Flight Search
+Flight Booking
+Shifting dates
+Cancelation
+Stores data for booked or cancelled tickets
+User Feedback
+
+
+DSA Concepts to implement:
+1. Linked Lists: For maintaining collections of flights and transactions
+2. Binary Search Trees: For efficient flight searching by flight routes or date
+3. Queues: For handling flights reservation requests
+4. Sorting Algorithms: For displaying various flights
+5. Searching Algorithms: To search for flights
+
+
+Objective:
+Console Based Project that must have CRUD(Create , Read , Update , delete) operations.
+Create - Booking a flight
+Read   - Booked tickets for flight
+Update - Shifting of booked dates
+Delete - Cancelling the tickets
