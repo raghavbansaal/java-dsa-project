@@ -2,6 +2,7 @@ DRAG - Flight Booking System:
 
 DSA:
 Features:
+Admin authentication
 User Authentication
 Flight Search
 Flight Booking
@@ -9,6 +10,7 @@ Shifting dates
 Cancelation
 Stores data for booked or cancelled tickets
 User Feedback
+data for 50 flights (25 domestic , 25 international)
 
 
 DSA Concepts to implement:
