@@ -9,7 +9,10 @@ class main{
         String pswd;
         String inpmail;
         String inpswd;
+        boolean che=true;
+        while(che){
         System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+        System.out.println("|                                                (START)                                                   |");
         System.out.println("|                                                                                                          |");
         System.out.println("|                                 **Here are options work through numbers                                  |");
         System.out.println("|                                  suppose for choosing option 1 press 1**                                 |");
@@ -24,20 +27,20 @@ class main{
             case 1:
             sc.nextLine();
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                               (SIGN UP)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
-            System.out.println("|                                              SIGN UP                                                     |");
-            System.out.println("|                                            Set Email ID:                                                 |");
+            System.out.println("|                                             Set Email ID:                                                |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
             mail=sc.nextLine();
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                               (SIGN UP)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
-            System.out.println("|                                              SIGN UP                                                     |");
-            System.out.println("|                                            Set Password:                                                 |");
+            System.out.println("|                                             Set Password:                                                |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
@@ -58,20 +61,20 @@ class main{
             Boolean gate=true;
             while(gate){
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                                 (LOGIN)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
-            System.out.println("|                                                                                                          |");
-            System.out.println("|                                             Enter Email ID:                                              |");
+            System.out.println("|                                              Enter Email ID:                                             |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
             inpmail=sc.nextLine();
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                                                                                         |");
+            System.out.println("|                                                 (LOGIN)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
-            System.out.println("|                                             Enter Password:                                              |");
+            System.out.println("|                                              Enter Password:                                             |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
@@ -96,7 +99,10 @@ class main{
                     System.out.println("|--------------------------|");
                     System.out.println("| Redirecting       <==    |");
                     System.out.println("|--------------------------|");
+                    System.out.println();
+                    System.out.println();
                     gate=false;
+                    che=false;
                 } else {
                     System.out.println("Invalid credentials!");
                     System.out.println("Try Again!");
@@ -110,12 +116,16 @@ class main{
             case 3:
             //admin profile
             break;
+            default:
+            System.out.println("Invalid Input Restart");
+            break;
         }
+    }
         int homeinp;
         boolean barr = true;
         while (barr){
         System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-        System.out.println("|                                              (HOME PAGE)                                                 |");
+        System.out.println("|                                                  (HOME)                                                 |");
         System.out.println("|                                                                                                          |");
         System.out.println("|                                 **Here are options work through numbers                                  |");
         System.out.println("|                                  suppose for choosing option 1 press 1**                                 |");
@@ -138,7 +148,7 @@ class main{
             case 3:
             sc.nextLine();
                 System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-                System.out.println("|                                                                                                          |");
+                System.out.println("|                                               (CONTACT US)                                               |");
                 System.out.println("|                                                                                                          |");
                 System.out.println("|                                  You Can Contact Us at below References:                                 |");
                 System.out.println("|                                            Ph: +917206170804                                             |");
@@ -150,10 +160,10 @@ class main{
             case 4:
                 sc.nextLine();
                 System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                               (FEEDBACK)                                                 |");
                 System.out.println("|                                                                                                          |");
                 System.out.println("|                                                                                                          |");
-                System.out.println("|                                                                                                          |");
-                System.out.println("|                                                FEEDBACK                                                  |");
+                System.out.println("|                                           Enter your FEEDBACK                                            |");
                 System.out.println("|                                                                                                          |");
                 System.out.println("|                                                                                                          |");
                 System.out.println("| Type Below:                                                                                              |");
