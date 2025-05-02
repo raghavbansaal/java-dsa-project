@@ -36,6 +36,10 @@ class main{
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
             mail=sc.nextLine();
+            if (!mail.matches("^[^@]+@[^@]+\\.com")) {
+                System.out.println("Invalid mail format,Try Again!");
+                break;
+            }
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
             System.out.println("|                                               (SIGN UP)                                                  |");
             System.out.println("|                                                                                                          |");
