@@ -422,7 +422,16 @@ class main{
         }
         }
         else{
+            boolean reloop = true;
+            while(reloop){
             int admininp;
+            String flightnum;
+            String flightdest;
+            String flightstart;
+            String reachtime;
+            String departime;
+            String price;
+            String date;
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
             System.out.println("|                                                (ADMIN)                                                   |");
             System.out.println("|                                      Hi Admin, Glad to See You here!                                     |");
@@ -445,21 +454,125 @@ class main{
             admininp=sc.nextInt();
             switch(admininp){
                 case 1:
+                sc.nextLine();
+                System.out.println("Displaying Whole List of Registered Users of DRAG!");
+                try{
+                    Thread.sleep(2000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+                System.out.printf("| %-10s |\n", 
+                                "User mail");
+                System.out.println("----------------------------------------------------------------------------");
+                
                 break;
                 case 2:
+                sc.nextLine();
+
                 break;
                 case 3:
+                sc.nextLine();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                        ENTER FLIGHT NUMBER:                                              |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                flightnum=sc.next();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                         ENTER START ROUTE:                                               |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                flightstart=sc.next();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                          ENTER END ROUTE:                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                flightdest=sc.next();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                        ENTER DEPARTURE TIME:                                             |");
+                System.out.println("|                                              (HH:MM)                                                     |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                departime=sc.next();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                       ENTER DESTINATION TIME:                                            |");
+                System.out.println("|                                             (HH:MM)                                                      |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                reachtime=sc.next();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                       ENTER PRICE PER SEAT:                                              |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                price=sc.next();
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                         (ADDING A FLIGHT)                                                |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                       ENTER DATE(YYYY-MM-DD):                                            |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                date=sc.next();
+                try {
+                    FileWriter writer = new FileWriter("flights.txt", true);
+                    writer.write(flightnum+","+flightstart+","+flightdest+","+date+","+departime+","+reachtime+ "\n");
+                    writer.close();
+                    System.out.println("Flight Added Succesfully!");
+                } catch (Exception e) {
+                    System.out.println("Error try Again!");
+                }
                 break;
                 case 4:
+                sc.nextLine();
+
                 break;
                 case 5:
+                sc.nextLine();
+
                 break;
                 case 6:
+                sc.nextLine();
+                System.out.printf("| %-10s | %-8s |\n", 
+                                "User mail", "Feedback");
+                System.out.println("----------------------------------------------------------------------------");
                 break;
                 case 7:
+                sc.nextLine();
+                try{
+                    Thread.sleep(1000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+                System.out.println("Logged Out,Thank You For Maintaining DRAG");
+                reloop=false;
                 break;
             }
         }
+    }
     }
     public static class FlightSystem {
         public static int travelers;
