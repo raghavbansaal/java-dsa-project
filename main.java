@@ -13,6 +13,7 @@ class main{
         String inpswd;
         String adminmail;
         String adminpswd;
+        String inpflinum;
         int logger=1;
         boolean che=true;
         while(che){
@@ -217,9 +218,10 @@ class main{
         System.out.println("|                                                                                                          |");
         System.out.println("|                                        PRESS 1 : SEARCH FOR FLIGHT                                       |");
         System.out.println("|                                        PRESS 2 : BOOKINGS                                                |");
-        System.out.println("|                                        PRESS 3 : CONTACT US                                              |");
-        System.out.println("|                                        PRESS 4 : FEEDBACK                                                |");
-        System.out.println("|                                        PRESS 5 : LOG OUT                                                 |");
+        System.out.println("|                                        PRESS 3 : MODIFY BOOKINGS                                         |");
+        System.out.println("|                                        PRESS 4 : CONTACT US                                              |");
+        System.out.println("|                                        PRESS 5 : FEEDBACK                                                |");
+        System.out.println("|                                        PRESS 6 : LOG OUT                                                 |");
         System.out.println("|                                                                                                          |");
         System.out.println("| Type Below:                                                                                              |");
         System.out.println("|----------------------------------------------------------------------------------------------------------|");
@@ -228,12 +230,137 @@ class main{
             case 1:
             sc.nextLine();
             FlightSystem.searchFlight(sc);
+            if(FlightSystem.flightfound==true){
+            System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                           (BOOKING)                                                      |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                     ENTER THE FLIGHT NUMBER                                              |");
+            System.out.println("|                                        YOU WANT TO BOOK:                                                 |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("| Type Below:                                                                                              |");
+            System.out.println("|----------------------------------------------------------------------------------------------------------|");
+            inpflinum=sc.next();
+            try {
+                FileWriter writer = new FileWriter("bookings.txt", true);
+                writer.write("User: "+mail + " ,Booked Flight: " + inpflinum +",Passenger: "+ FlightSystem.travelers +"\n");
+                writer.close();
+                System.out.println("Confirming Your Tickets,Please wait for a While!");
+                try{
+                    Thread.sleep(1500);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+                System.out.println("Congrats!,Your ticket booked succesfully");
+            } catch (Exception e) {
+                System.out.println("Error try Again!");
+            }
+            }
             break;
             case 2:
-            System.out.println("Work in progress");
+            sc.nextLine();
+            System.out.println("Finding All Your Bookings,Please Wait!");
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println("Something Went Wrong!");
+            }
+            try {
+                File file = new File("bookings.txt");
+                Scanner fileScanner = new Scanner(file);
+                boolean found = false;
+                System.out.println("----------------------------------------------------------------------");
+                System.out.printf("| %-30s | %-15s | %-10s |\n", 
+                                 "Flight Number", "Passengers", "Status");
+                System.out.println("----------------------------------------------------------------------");
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine();
+                    if (line.contains("User: " + mail)) {
+                        found = true;
+                        String flightNum = line.split("Booked Flight: ")[1].split(",")[0].trim();
+                        String passengers = line.split("Passenger: ")[1].trim();
+
+                        System.out.printf("| %-30s | %-15s | %-10s |\n",
+                                        flightNum,
+                                        passengers,
+                                        "Confirmed");
+                                        System.out.println();
+                                        System.out.println();
+                                        System.out.println();
+                    }
+                }
+                if (!found) {
+                    System.out.println("| No bookings found for your account.                                |");
+                    System.out.println();
+                }
+                fileScanner.close();
+                try{
+                    Thread.sleep(2000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+            } catch (Exception e) {
+                System.out.println("Error accessing bookings: " + e.getMessage());
+            }
             break;
             case 3:
             sc.nextLine();
+            String cancel;
+            System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                        (MODIFICATIONS)                                                   |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                 DO YOU WANT TO CANCEL YOUR TICKET?                                       |");
+            System.out.println("|                                             (y/n)                                                        |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("| Type Below:                                                                                              |");
+            System.out.println("|----------------------------------------------------------------------------------------------------------|");
+            cancel=sc.next();
+            switch(cancel){
+                case "y":
+                sc.nextLine();
+                System.out.println("Enter Flight Number to cancel:");
+                String flightToCancel = sc.nextLine();
+                try {
+                    String fileContent = new Scanner(new File("bookings.txt")).useDelimiter("\\Z").next();
+                    fileContent = fileContent.replaceAll("User: " + mail + " ,Booked Flight: " + flightToCancel + ".*(\\n|$)", "");
+                    FileWriter writer = new FileWriter("bookings.txt");
+                    writer.write(fileContent);
+                    writer.close();
+                    try{
+                        Thread.sleep(1000);
+                    }
+                    catch(Exception e){
+                        System.out.println("Something Went Wrong!");
+                    }
+                    System.out.println("Booking cancelled!");
+                } catch (Exception e) {
+                    System.out.println("Error cancelling booking");
+                }
+                break;
+                case "n":
+                System.out.println("Redirecting Back to Home!");
+                try{
+                    Thread.sleep(2000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+                break;
+            }
+            break;
+            case 4:
+            sc.nextLine();
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println("Something Went Wrong!");
+            }
                 System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
                 System.out.println("|                                               (CONTACT US)                                               |");
                 System.out.println("|                                                                                                          |");
@@ -243,9 +370,21 @@ class main{
                 System.out.println("|                                                                                                          |");
                 System.out.println("|                                                                                                          |");
                 System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                try{
+                    Thread.sleep(1000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
             break;
-            case 4:
+            case 5:
                 sc.nextLine();
+                try{
+                    Thread.sleep(1000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
                 System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
                 System.out.println("|                                               (FEEDBACK)                                                 |");
                 System.out.println("|                                                                                                          |");
@@ -264,8 +403,14 @@ class main{
                 } catch (Exception e) {
                     System.out.println("Error Saving Feedback,Try Again!");
                 }
+                try{
+                    Thread.sleep(500);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
             break;
-            case 5:
+            case 6:
                 System.out.println("You Logged Out Successfully!");
                 System.out.println("Thank you for visiting DRAG");
                 barr=false;
@@ -277,8 +422,9 @@ class main{
         }
         }
         else{
+            int admininp;
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                                (START)                                                   |");
+            System.out.println("|                                                (ADMIN)                                                   |");
             System.out.println("|                                      Hi Admin, Glad to See You here!                                     |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                 **Don't Share Admin login credentials                                    |");
@@ -296,14 +442,34 @@ class main{
             System.out.println("|                                         PRESS 7 : LOGOUT                                                 |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
+            admininp=sc.nextInt();
+            switch(admininp){
+                case 1:
+                break;
+                case 2:
+                break;
+                case 3:
+                break;
+                case 4:
+                break;
+                case 5:
+                break;
+                case 6:
+                break;
+                case 7:
+                break;
+            }
         }
     }
     public static class FlightSystem {
-    
+        public static int travelers;
+        public static String date;
+        public static String destination;
+        public static String departure;
+        public static boolean flightfound;
         static class Flight {
             String flightNumber, departure, destination, date, departureTime, arrivalTime;
             double price;
-    
             Flight(String flightNumber, String departure, String destination, 
                   String date, double price, String departureTime, String arrivalTime) {
                 this.flightNumber = flightNumber;
@@ -318,7 +484,7 @@ class main{
     
         public static void searchFlight(Scanner sc) {
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                               (SIGN UP)                                                  |");
+            System.out.println("|                                             (SEARCHING)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                        Enter Departure City:                                             |");
@@ -326,10 +492,10 @@ class main{
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
-            String departure = sc.nextLine();
+            departure = sc.nextLine();
         
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                               (SIGN UP)                                                  |");
+            System.out.println("|                                             (SEARCHING)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                        Enter Destination City:                                           |");
@@ -337,10 +503,10 @@ class main{
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
-            String destination = sc.nextLine();
+            destination = sc.nextLine();
         
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                               (SIGN UP)                                                  |");
+            System.out.println("|                                             (SEARCHING)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                        Enter Date (YYYY-MM-DD):                                          |");
@@ -348,10 +514,10 @@ class main{
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
-            String date = sc.nextLine();
+            date = sc.nextLine();
             
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                               (SIGN UP)                                                  |");
+            System.out.println("|                                               (SEARCHING)                                                  |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                        Enter Number of Travellers:                                       |");
@@ -359,9 +525,15 @@ class main{
             System.out.println("|                                                                                                          |");
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
-            int travelers = sc.nextInt();
+            travelers = sc.nextInt();
             sc.nextLine();
-            
+            System.out.println("Searching the best available flight for you! ");
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println("Something Went Wrong!");
+            }
             List<Flight> flights = loadFlights();
             List<Flight> matchingFlights = new ArrayList<>();
         
@@ -390,8 +562,16 @@ class main{
                                     travelers,
                                     totalPrice);
                 }
+                flightfound=true;
                 System.out.println("----------------------------------------------------------------------------");
+                try{
+                    Thread.sleep(2000);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
             } else {
+                flightfound=false;
                 System.out.println("No flights available for the selected route and date.");
             }
         }
