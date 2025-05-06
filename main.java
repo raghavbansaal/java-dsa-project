@@ -462,14 +462,49 @@ class main{
                 catch(Exception e){
                     System.out.println("Something Went Wrong!");
                 }
-                System.out.printf("| %-10s |\n", 
-                                "User mail");
+                System.out.println("|Registered Users:");
                 System.out.println("----------------------------------------------------------------------------");
-                
+                try{
+                    File obk = new File ("users.txt");
+                    Scanner rea = new Scanner(obk);
+                    while(rea.hasNextLine()){
+                        String data = rea.nextLine();
+                        System.out.println(data);
+                    }
+                    if(obk.length()==0){
+                        System.out.println("No User Found!");
+                    }
+                    rea.close();
+                }catch(Exception e){
+                    System.out.println("An Error Occured!");
+                }
+                System.out.println("----------------------------------------------------------------------------");
                 break;
                 case 2:
                 sc.nextLine();
-
+                try{
+                    Thread.sleep(1500);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+                System.out.println("|Bookings:");
+                System.out.println("----------------------------------------------------------------------------");
+                try{
+                    File obje = new File ("bookings.txt");
+                    Scanner read = new Scanner(obje);
+                    while(read.hasNextLine()){
+                        String data = read.nextLine();
+                        System.out.println(data);
+                    }
+                    if(obje.length()==0){
+                        System.out.println("No Bookings Found!");
+                    }
+                    read.close();
+                }catch(Exception e){
+                    System.out.println("An Error Occured!");
+                }
+                System.out.println("----------------------------------------------------------------------------");
                 break;
                 case 3:
                 sc.nextLine();
@@ -538,7 +573,7 @@ class main{
                 date=sc.next();
                 try {
                     FileWriter writer = new FileWriter("flights.txt", true);
-                    writer.write(flightnum+","+flightstart+","+flightdest+","+date+","+departime+","+reachtime+ "\n");
+                    writer.write(flightnum+","+flightstart+","+flightdest+","+date+","+price+","+departime+","+reachtime+ "\n");
                     writer.close();
                     System.out.println("Flight Added Succesfully!");
                 } catch (Exception e) {
@@ -547,16 +582,36 @@ class main{
                 break;
                 case 4:
                 sc.nextLine();
-
+                FlightSystem.removeflight(sc);
                 break;
                 case 5:
                 sc.nextLine();
-
+                System.out.println("Work in Progress");
                 break;
                 case 6:
                 sc.nextLine();
-                System.out.printf("| %-10s | %-8s |\n", 
-                                "User mail", "Feedback");
+                try{
+                    Thread.sleep(1500);
+                }
+                catch(Exception e){
+                    System.out.println("Something Went Wrong!");
+                }
+                System.out.println("|User       |Feedback");
+                System.out.println("----------------------------------------------------------------------------");
+                try{
+                    File obj = new File ("feedback.txt");
+                    Scanner reader = new Scanner(obj);
+                    while(reader.hasNextLine()){
+                        String data = reader.nextLine();
+                        System.out.println(data);
+                    }
+                    if(obj.length()==0){
+                        System.out.println("No Feedback Found!");
+                    }
+                    reader.close();
+                }catch(Exception e){
+                    System.out.println("An Error Occured!");
+                }
                 System.out.println("----------------------------------------------------------------------------");
                 break;
                 case 7:
@@ -580,6 +635,9 @@ class main{
         public static String destination;
         public static String departure;
         public static boolean flightfound;
+        public static String removeflightdate;
+        public static String removestart;
+        public static String removend;
         static class Flight {
             String flightNumber, departure, destination, date, departureTime, arrivalTime;
             double price;
@@ -594,7 +652,140 @@ class main{
                 this.arrivalTime = arrivalTime;
             }
         }
-    
+        static void removeflight(Scanner sc) {
+            System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                        (REMOVING A FLIGHT)                                               |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                         Enter Flight Date:                                               |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("| Type Below:                                                                                              |");
+            System.out.println("|----------------------------------------------------------------------------------------------------------|");
+            removeflightdate = sc.next();
+            System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                        (REMOVING A FLIGHT)                                               |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                       Enter Start of Flight:                                             |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("| Type Below:                                                                                              |");
+            System.out.println("|----------------------------------------------------------------------------------------------------------|");
+            removestart = sc.next();
+            System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+            System.out.println("|                                        (REMOVING A FLIGHT)                                               |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                    Enter Destination of Flight:                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("|                                                                                                          |");
+            System.out.println("| Type Below:                                                                                              |");
+            System.out.println("|----------------------------------------------------------------------------------------------------------|");
+            removend = sc.next();
+            sc.nextLine();
+            
+            System.out.println("Searching for the flight you want to remove,Please Wait! ");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                System.out.println("Something Went Wrong!");
+            }
+            
+            List<Flight> flights = loadFlights();
+            List<Flight> matchingFlights = new ArrayList<>();
+            
+            for (Flight flight : flights) {
+                if (flight.departure.equalsIgnoreCase(removestart) &&
+                    flight.destination.equalsIgnoreCase(removend) &&
+                    flight.date.equals(removeflightdate)) {
+                    matchingFlights.add(flight);
+                }
+            }
+            
+            if (!matchingFlights.isEmpty()) {
+                System.out.println("\nFound Flights:");
+                System.out.println("----------------------------------------------------------");
+                System.out.printf("| %-10s | %-8s | %-8s | %-10s |\n", 
+                                "Flight No", "Depart", "Arrive", "Price");
+                System.out.println("----------------------------------------------------------");
+                
+                for (Flight flight : matchingFlights) {
+                    System.out.printf("| %-10s | %-8s | %-8s | INR%-8.2f |\n",
+                                    flight.flightNumber,
+                                    flight.departureTime,
+                                    flight.arrivalTime,
+                                    flight.price);
+                }
+                System.out.println("----------------------------------------------------------");
+                
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    System.out.println("Something Went Wrong!");
+                }
+                
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                        (REMOVING A FLIGHT)                                               |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                    Enter Flight number to remove:                                        |");
+                System.out.println("|                                      (Press n to cancel process)                                         |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                String reflightnum = sc.next();
+                if(reflightnum.equals("n")){
+                    System.out.println("Redirecting back!");
+                    try{
+                        Thread.sleep(1500);
+                    }
+                    catch(Exception e){
+                        System.out.println("Something Went Wrong!");
+                    }
+                }
+                else{
+                try {
+                    File file = new File("flights.txt");
+                    List<String> fileContent = new ArrayList<>();
+                    Scanner fileScanner = new Scanner(file);
+                    
+                    boolean found = false;
+                    while (fileScanner.hasNextLine()) {
+                        String line = fileScanner.nextLine();
+                        String[] parts = line.split(",");
+                        
+                        if (parts[0].equalsIgnoreCase(reflightnum) && 
+                            parts[1].equalsIgnoreCase(removestart) && 
+                            parts[2].equalsIgnoreCase(removend) && 
+                            parts[3].equals(removeflightdate)) {
+                            found = true;
+                            continue;
+                        }
+                        fileContent.add(line);
+                    }
+                    fileScanner.close();
+                    
+                    if (found) {
+                        FileWriter writer = new FileWriter("flights.txt");
+                        for (String line : fileContent) {
+                            writer.write(line + "\n");
+                        }
+                        writer.close();
+                        System.out.println("Flight Removed Successfully!");
+                    } else {
+                        System.out.println("No matching flight found with the given details.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error removing flight: " + e.getMessage());
+                }
+            } 
+        }
+            else {
+                System.out.println("No flights found for the selected route and date.");
+            }
+            
+        }
         public static void searchFlight(Scanner sc) {
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
             System.out.println("|                                             (SEARCHING)                                                  |");
@@ -630,7 +821,7 @@ class main{
             date = sc.nextLine();
             
             System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
-            System.out.println("|                                               (SEARCHING)                                                  |");
+            System.out.println("|                                               (SEARCHING)                                                |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                                                                                          |");
             System.out.println("|                                        Enter Number of Travellers:                                       |");
