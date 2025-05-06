@@ -524,7 +524,38 @@ class main{
                 break;
                 case 5:
                 sc.nextLine();
-                System.out.println("Work in Progress");
+                String stid;
+                System.out.println("|------------------------------WELCOME TO DRAG - BOOK YOUR TICKETS ON THE GO!------------------------------|");
+                System.out.println("|                                       (SEARCHING A TICKET)                                               |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                         ENTER TICKET ID:                                                 |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("|                                                                                                          |");
+                System.out.println("| Type Below:                                                                                              |");
+                System.out.println("|----------------------------------------------------------------------------------------------------------|");
+                stid=sc.next();
+                boolean idf=false;
+                try{
+                Scanner fs = new Scanner(new File("bookings.txt"));
+                while (fs.hasNextLine()) {
+                    String line = fs.nextLine();
+                    String[] parts = line.split(",ID:");
+                    if (parts[1].equals(stid)) {
+                            System.out.println("TICKET: "+parts[0]+parts[1]);
+                            System.out.println();
+                            try{
+                                Thread.sleep(1500);
+                            }
+                            catch(Exception e){
+                                System.out.println("Something Went Wrong!");
+                            }
+                            break;
+                    }
+                }
+                }
+                catch(Exception e){
+                    System.out.println("Unable to Search Booking.txt");
+                }
                 break;
                 case 6:
                 sc.nextLine();
