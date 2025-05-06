@@ -1,2 +1,1 @@
-
-    }
+ // Offset to get only digits (positions 26-35)

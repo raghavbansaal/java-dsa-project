@@ -14,6 +14,7 @@ class main{
         String adminmail;
         String adminpswd;
         String inpflinum;
+        String ticket_id;
         int logger=1;
         boolean che=true;
         while(che){
@@ -242,9 +243,10 @@ class main{
             System.out.println("| Type Below:                                                                                              |");
             System.out.println("|----------------------------------------------------------------------------------------------------------|");
             inpflinum=sc.next();
+            ticket_id=generateTicketID();
             try {
                 FileWriter writer = new FileWriter("bookings.txt", true);
-                writer.write("User: "+mail + " ,Booked Flight: " + inpflinum +",Passenger: "+ FlightSystem.travelers +"\n");
+                writer.write("User: "+mail + " ,Booked Flight: " + inpflinum +",Passenger: "+ FlightSystem.travelers +",ID:"+ticket_id+"\n");
                 writer.close();
                 System.out.println("Confirming Your Tickets,Please wait for a While!");
                 try{
@@ -262,50 +264,7 @@ class main{
             case 2:
             sc.nextLine();
             System.out.println("Finding All Your Bookings,Please Wait!");
-            try{
-                Thread.sleep(1000);
-            }
-            catch(Exception e){
-                System.out.println("Something Went Wrong!");
-            }
-            try {
-                File file = new File("bookings.txt");
-                Scanner fileScanner = new Scanner(file);
-                boolean found = false;
-                System.out.println("----------------------------------------------------------------------");
-                System.out.printf("| %-30s | %-15s | %-10s |\n", 
-                                 "Flight Number", "Passengers", "Status");
-                System.out.println("----------------------------------------------------------------------");
-                while (fileScanner.hasNextLine()) {
-                    String line = fileScanner.nextLine();
-                    if (line.contains("User: " + mail)) {
-                        found = true;
-                        String flightNum = line.split("Booked Flight: ")[1].split(",")[0].trim();
-                        String passengers = line.split("Passenger: ")[1].trim();
-
-                        System.out.printf("| %-30s | %-15s | %-10s |\n",
-                                        flightNum,
-                                        passengers,
-                                        "Confirmed");
-                                        System.out.println();
-                                        System.out.println();
-                                        System.out.println();
-                    }
-                }
-                if (!found) {
-                    System.out.println("| No bookings found for your account.                                |");
-                    System.out.println();
-                }
-                fileScanner.close();
-                try{
-                    Thread.sleep(2000);
-                }
-                catch(Exception e){
-                    System.out.println("Something Went Wrong!");
-                }
-            } catch (Exception e) {
-                System.out.println("Error accessing bookings: " + e.getMessage());
-            }
+            veiwbooking(mail);
             break;
             case 3:
             sc.nextLine();
@@ -482,29 +441,8 @@ class main{
                 break;
                 case 2:
                 sc.nextLine();
-                try{
-                    Thread.sleep(1500);
-                }
-                catch(Exception e){
-                    System.out.println("Something Went Wrong!");
-                }
-                System.out.println("|Bookings:");
-                System.out.println("----------------------------------------------------------------------------");
-                try{
-                    File obje = new File ("bookings.txt");
-                    Scanner read = new Scanner(obje);
-                    while(read.hasNextLine()){
-                        String data = read.nextLine();
-                        System.out.println(data);
-                    }
-                    if(obje.length()==0){
-                        System.out.println("No Bookings Found!");
-                    }
-                    read.close();
-                }catch(Exception e){
-                    System.out.println("An Error Occured!");
-                }
-                System.out.println("----------------------------------------------------------------------------");
+                System.out.println("Finding All Bookings,Please Wait!");
+                veiwbooking(mail);
                 break;
                 case 3:
                 sc.nextLine();
@@ -607,6 +545,12 @@ class main{
                     }
                     if(obj.length()==0){
                         System.out.println("No Feedback Found!");
+                        try{
+                            Thread.sleep(1000);
+                        }
+                        catch(Exception e){
+                            System.out.println("Something Went Wrong!");
+                        }
                     }
                     reader.close();
                 }catch(Exception e){
@@ -628,6 +572,77 @@ class main{
             }
         }
     }
+    }
+    public static void veiwbooking(String email){
+        try{
+            Thread.sleep(1000);
+        }
+        catch(Exception e){
+            System.out.println("Something Went Wrong!");
+        }
+        try {
+            File file = new File("bookings.txt");
+            Scanner fileScanner = new Scanner(file);
+            boolean found = false;
+            System.out.println("------------------------------------------------------------------------------");
+            System.out.printf("| %-30s | %-15s | %-10s | %-10s |\n", 
+                             "Flight Number", "Passengers","Ticket ID", "Status");
+            System.out.println("------------------------------------------------------------------------------");
+            
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                if (line.contains("User: " + email)) {
+                    found = true;
+                    try {
+                        String flightNum = line.contains("Booked Flight: ") ? 
+                            line.split("Booked Flight: ")[1].split(",")[0].trim() : "N/A";
+                        
+                        String passengers = line.contains("Passenger: ") ? 
+                            line.split("Passenger: ")[1].split(",ID:")[0].trim() : "N/A";
+                        
+                        String tiid = line.contains("ID:") ? 
+                            line.split("ID:")[1].trim() : "N/A";
+                        
+                        System.out.printf("| %-30s | %-15s | %-10s | %-10s |\n",
+                            flightNum,
+                            passengers,
+                            tiid,
+                            "Confirmed");
+                    } catch (Exception e) {
+                        System.out.println("Error processing booking data for line: " + line);
+                    }
+                }
+            }
+            if(!found){
+                System.out.println("No Bookings found for this Account");
+            }
+        } catch (Exception e) {
+            System.out.println("Error accessing bookings: " + e.getMessage());
+        }
+        System.out.println("------------------------------------------------------------------------------");
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        try{
+            Thread.sleep(2000);
+        }
+        catch(Exception e){
+            System.out.println("Something Went Wrong!");
+        }
+    }
+    public static String generateTicketID() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder ticketID = new StringBuilder();
+        java.util.Random random = new java.util.Random();
+        for (int i = 0; i < 2; i++) {
+            int index = random.nextInt(26);
+            ticketID.append(chars.charAt(index));
+        }
+        for (int i = 0; i < 6; i++) {
+            int index = 26 + random.nextInt(10);
+            ticketID.append(chars.charAt(index));
+        }
+        return ticketID.toString();
     }
     public static class FlightSystem {
         public static int travelers;
