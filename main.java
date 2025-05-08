@@ -544,31 +544,46 @@ class main {
                 admininp = sc.nextInt();
                 switch (admininp) {
                     case 1:
-                        sc.nextLine();
-                        System.out.println("Displaying Whole List of Registered Users of DRAG!");
-                        try {
-                            Thread.sleep(2000);
-                        } catch (Exception e) {
-                            System.out.println("Something Went Wrong!");
+                    sc.nextLine();
+                    System.out.println("Displaying Whole List of Registered Users of DRAG!");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (Exception e) {
+                        System.out.println("Something Went Wrong!");
+                    }
+                    System.out.println("|Registered Users:");
+                    System.out.println("----------------------------------------------------------------------------");
+                    try {
+                        File obk = new File("users.txt");
+                        Scanner rea = new Scanner(obk);
+                        List<String> users = new ArrayList<>();
+                        while (rea.hasNextLine()) {
+                            String data = rea.nextLine();
+                            users.add(data);
                         }
-                        System.out.println("|Registered Users:");
-                        System.out.println("----------------------------------------------------------------------------");
-                        try {
-                            File obk = new File("users.txt");
-                            Scanner rea = new Scanner(obk);
-                            while (rea.hasNextLine()) {
-                                String data = rea.nextLine();
-                                System.out.println(data);
+                        rea.close();
+                        if (users.isEmpty()) {
+                            System.out.println("No User Found!");
+                        } else {
+                            // Insertion Sort
+                            for (int i = 1; i < users.size(); i++) {
+                                String key = users.get(i);
+                                int j = i - 1;
+                                while (j >= 0 && users.get(j).compareToIgnoreCase(key) > 0) {
+                                    users.set(j + 1, users.get(j));
+                                    j--;
+                                }
+                                users.set(j + 1, key);
                             }
-                            if (obk.length() == 0) {
-                                System.out.println("No User Found!");
+                            for (String user : users) {
+                                System.out.println(user);
                             }
-                            rea.close();
-                        } catch (Exception e) {
-                            System.out.println("An Error Occured!");
                         }
-                        System.out.println("----------------------------------------------------------------------------");
-                        break;
+                    } catch (Exception e) {
+                        System.out.println("An Error Occurred!");
+                    }
+                    System.out.println("----------------------------------------------------------------------------");
+                    break;
                     case 2:
                         sc.nextLine();
                         System.out.println("Finding All Bookings,Please Wait!");
@@ -799,46 +814,57 @@ class main {
 
     public static void veiwbooking(String email) {
         try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            System.out.println("Something Went Wrong!");
-        }
-        // Linear Search used to find user bookings
-        try {
             File file = new File("bookings.txt");
             Scanner fileScanner = new Scanner(file);
+            List<String> bookings = new ArrayList<>();
             boolean found = false;
-            System.out.println("------------------------------------------------------------------------------");
-            System.out.printf("| %-30s | %-15s | %-10s | %-10s |\n",
-                    "Flight Number", "Passengers", "Ticket ID", "Status");
-            System.out.println("------------------------------------------------------------------------------");
-
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
+                //linear search for matching mail
                 if (line.contains("User: " + email)) {
                     found = true;
-                    try {
-                        String flightNum = line.contains("Booked Flight: ") ?
-                                line.split("Booked Flight: ")[1].split(",")[0].trim() : "N/A";
-
-                        String passengers = line.contains("Passenger: ") ?
-                                line.split("Passenger: ")[1].split(",ID:")[0].trim() : "N/A";
-
-                        String tiid = line.contains("ID:") ?
-                                line.split("ID:")[1].trim() : "N/A";
-
-                        System.out.printf("| %-30s | %-15s | %-10s | %-10s |\n",
-                                flightNum,
-                                passengers,
-                                tiid,
-                                "Confirmed");
-                    } catch (Exception e) {
-                        System.out.println("Error processing booking data for line: " + line);
-                    }
+                    bookings.add(line);
                 }
             }
+            fileScanner.close();
             if (!found) {
                 System.out.println("No Bookings found for this Account");
+            } else {
+                // Insertion Sort by Flight Number
+                for (int i = 1; i < bookings.size(); i++) {
+                    String currentBooking = bookings.get(i);
+                    String currentFlightNum = extractFlightNumber(currentBooking);
+                    int j = i - 1;
+                    
+                    while (j >= 0 && 
+                           extractFlightNumber(bookings.get(j)).compareTo(currentFlightNum) > 0) {
+                        bookings.set(j + 1, bookings.get(j));
+                        j--;
+                    }
+                    bookings.set(j + 1, currentBooking);
+                }
+                System.out.println("------------------------------------------------------------------------------");
+                System.out.printf("| %-30s | %-15s | %-10s | %-10s |\n",
+                        "Flight Number", "Passengers", "Ticket ID", "Status");
+                System.out.println("------------------------------------------------------------------------------");
+    
+                for (String booking : bookings) {
+                    try {
+                        String flightNum = booking.contains("Booked Flight: ") ?
+                                booking.split("Booked Flight: ")[1].split(",")[0].trim() : "N/A";
+    
+                        String passengers = booking.contains("Passenger: ") ?
+                                booking.split("Passenger: ")[1].split(",ID:")[0].trim() : "N/A";
+    
+                        String ticketId = booking.contains("ID:") ?
+                                booking.split("ID:")[1].trim() : "N/A";
+    
+                        System.out.printf("| %-30s | %-15s | %-10s | %-10s |\n",
+                                flightNum, passengers, ticketId, "Confirmed");
+                    } catch (Exception e) {
+                        System.out.println("Error processing booking data: " + booking);
+                    }
+                }
             }
         } catch (Exception e) {
             System.out.println("Error accessing bookings: " + e.getMessage());
@@ -851,6 +877,13 @@ class main {
             Thread.sleep(2000);
         } catch (Exception e) {
             System.out.println("Something Went Wrong!");
+        }
+    }
+    private static String extractFlightNumber(String bookingLine) {
+        try {
+            return bookingLine.split("Booked Flight: ")[1].split(",")[0].trim();
+        } catch (Exception e) {
+            return "";
         }
     }
     public static void changeuserpswd(String email, String pswd) {
